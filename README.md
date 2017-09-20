@@ -61,7 +61,7 @@ Start your container on the host
 ```
 
 # Interlude 2
-'ip addr show' shows another one interface, probably something like "ve-stretch.con@ifXX"
+'ip addr show' shows another one interface, probably something like "ve-stretch.con@ifXX" and 'networkctl status' shows 3 IP on this interface (class A,B,C)
 
 # Step 8
 Enable systemd-networkd on the guest (host alrealdy done upper) and prepare your ssh first user

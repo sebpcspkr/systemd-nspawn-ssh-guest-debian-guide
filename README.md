@@ -145,13 +145,18 @@ stretch.container001 container systemd-nspawn debian 9       10.0.0.10...
 2 machines listed.
 ```
 # Furthermore
-Automatically start containers at host startup
+## Automatically start containers at host startup
 ```
 # systemctl enable machines.target
 # systemctl enable systemd-nspawn@stretch.container001.service
 Created symlink /etc/systemd/system/machines.target.wants/systemd-nspawn@stretch.container001.service → /lib/systemd/system/systemd-nspawn@.service.
 ```
-
+## Prevent conflict on hostname 
+To avoid 'Hostname conflict, changing published hostname from 'xxxx to 'xxxx3'.Stop the guest then:
+```
+echo container001 > /var/lib/machines/stretch.container001/etc/hostname
+```
+Then startup again
 
 
 

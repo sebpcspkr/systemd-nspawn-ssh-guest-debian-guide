@@ -1,5 +1,5 @@
 # Topic
-Basically, just a guide for a basic systemd-nspawn use case: how to create a debian 9 systemd-nspawn container with ssh daemon  (guest) , on a debian 9 (host). Some steps. Tested on Debian 9 aka Stretch.
+Basically, just a guide for a systemd-nspawn use case: how to create a debian 9 systemd-nspawn container with ssh daemon  (guest) , on a debian 9 (host). Some steps. Tested on Debian 9 aka Stretch.
 
 
 
@@ -61,7 +61,7 @@ Start your container on the host
 ```
 
 # Interlude 2
-'ip addr show' shows another one interface, probably something like "ve-stretch.con@ifXX" and 'networkctl status' shows 3 IP on this interface (class A,B,C)
+'ip addr show' shows another one interface, probably something like "ve-stretch.con@ifXX" and 'networkctl status' shows 3 IP on this interface (class A,B,C).
 
 # Step 8
 Enable systemd-networkd on the guest (host alrealdy done upper) and prepare your ssh first user
@@ -130,7 +130,7 @@ Connection to stretch.container001 closed.
 
 
 # Interlude 3
-Take a look at nspawn process
+Take a look at nspawn process (host side)
 ```
 # ps auxwww | grep nspawn
 root     30302  0.0  0.1  52864  4460 ?        Ss   23:05   0:00 /usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --network-veth -U --settings=override --machine=stretch.container001
@@ -143,7 +143,12 @@ MACHINE              CLASS     SERVICE        OS     VERSION ADDRESSES
 stretch.container001 container systemd-nspawn debian 9       10.0.0.10...
 
 2 machines listed.
+
 ```
+Take a look at 'networkctl status --all' (host side and guest side) :
+- host side, IP are gateway IP
+- guest side, IP is container IP (and the gateway looks ok)
+
 # Furthermore
 ## Automatically start containers at host startup
 ```

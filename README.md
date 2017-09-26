@@ -163,7 +163,26 @@ echo container001 > /var/lib/machines/stretch.container001/etc/hostname
 ```
 Then startup again
 
+## Access to guest in ssh by the host from any device of the host's network (basic way : disabling private networking to use host networking)
 
-
+Configure guest ssh port to 2222
+```
+root@container001:~# sed -i.bak 's/^#Port 22/#Port 22\nPort 2222/' /etc/ssh/sshd_config   
+```
+Change default configuration of the container to use same network as host by overriding inital configuration the the container (you can do this with systemctl edit systemd-nspawn@stretch.container001.service  too) 
+```
+# mkdir /etc/systemd/system/systemd-nspawn@stretch.container001.service.d
+# echo  -e "[Service]\nExecStart=\n\nExecStart=/usr/bin/systemd-nspawn --quiet --keep-unit --boot --link-journal=try-guest --machine=%I" > /etc/systemd/system/systemd-nspawn@stretch.container001.service.d/override.conf
+# systemctl daemon-reload
+```
+Restart the container
+```
+# machinectl stop stretch.container001 
+# machinectl start stretch.container001
+```
+Then check from another device of the host's network
+```
+$ ssh -p 2222 guest@<HOST-IP>
+```
 
 
